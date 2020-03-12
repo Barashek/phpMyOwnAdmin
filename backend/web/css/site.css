@@ -102,9 +102,9 @@ a.desc:after {
     border: none;
 }
 
-@media(max-width:767px) {
+@media (max-width: 767px) {
     .nav li > form > button.logout {
-        display:block;
+        display: block;
         text-align: left;
         width: 100%;
         padding: 10px 15px;
@@ -118,4 +118,31 @@ a.desc:after {
 
 .nav > li > form > button.logout:focus {
     outline: none;
+}
+
+#sql-query-text {
+    width: 100%;
+}
+
+#sql-query-btn,
+#sql-query-save-btn {
+    width: 25%;
+    float: right;
+    margin: 10px 0 10px 10px;
+
+}
+
+#error {
+    padding: 0;
+    background-color: #ff8e71;
+}
+
+#access {
+    padding: 0;
+    background-color: #8dff73;
+}
+
+#error p,
+#access p {
+    margin: 5px;
 }

@@ -1,5 +1,8 @@
 <?php
 
+use src\Modules\Query\Domain\Repository\QueryRepositoryInterface;
+use src\Modules\Query\Infrastructure\Repository\QueryRepository;
+
 $config = [
     'components' => [
         'request' => [
@@ -7,6 +10,11 @@ $config = [
             'cookieValidationKey' => '',
         ],
     ],
+    'container' => [
+        'singletons' => [
+            QueryRepositoryInterface::class => QueryRepository::class,
+        ]
+    ]
 ];
 
 if (!YII_ENV_TEST) {
