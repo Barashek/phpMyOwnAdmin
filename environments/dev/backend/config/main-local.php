@@ -2,6 +2,9 @@
 
 use src\Modules\Query\Domain\Repository\QueryRepositoryInterface;
 use src\Modules\Query\Infrastructure\Repository\QueryRepository;
+use src\Modules\SysDB\Domain\Repository\SysDbRepositoryInterface;
+use src\Modules\SysDB\Infrastructure\Repository\DbColumnNameRepository;
+use src\Modules\SysDB\Infrastructure\Repository\DbTableNameRepository;
 
 $config = [
     'components' => [
@@ -13,6 +16,8 @@ $config = [
     'container' => [
         'singletons' => [
             QueryRepositoryInterface::class => QueryRepository::class,
+            SysDbRepositoryInterface::class => DbTableNameRepository::class,
+//            SysDbRepositoryInterface::class => DbColumnNameRepository::class,
         ]
     ]
 ];

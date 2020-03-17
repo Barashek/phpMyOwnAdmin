@@ -3,18 +3,18 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%query}}`.
+ * Handles the creation of table `{{%db_column_type}}`.
  */
-class m200311_142138_create_query_table extends Migration
+class m200311_221838_create_db_column_type_table extends Migration
 {
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-        $this->createTable('{{%query}}', [
+        $this->createTable('{{%db_column_type}}', [
             'id' => $this->primaryKey(),
-            'query' => $this->text(),
+            'name' => $this->string()->notNull(),
             'created_at' => $this->timestamp()->defaultExpression('NOW()')
         ]);
     }
@@ -24,6 +24,6 @@ class m200311_142138_create_query_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%query}}');
+        $this->dropTable('{{%db_column_type}}');
     }
 }

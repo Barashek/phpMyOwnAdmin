@@ -16,22 +16,29 @@ class m200311_222106_create_db_column_name_table extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
             'table_id' => $this->integer()->notNull(),
-            'created_at' => $this->timestamp(),
-            'updated_at' => $this->timestamp()
+            'type_id' => $this->integer()->notNull(),
+            'size' => $this->integer(),
+            'is_null' => $this->boolean(),
+            'created_at' => $this->timestamp()->defaultExpression('NOW()'),
+            'updated_at' => $this->timestamp()->defaultExpression('NOW()')
         ]);
 
-//        $this->insert('db_table_name',
-//            [
-//                'name' => 'db_column_name',
-//                'created_at' => date("Y-m-d H-i-s")
-//            ]
-//        );
 
         $this->addForeignKey(
             'fk-table_id-db_table_name',
             'db_column_name',
             'table_id',
             'db_table_name',
+            'id',
+            'cascade',
+            'cascade'
+        );
+
+        $this->addForeignKey(
+            'fk-type_id-db_column_type',
+            'db_column_name',
+            'type_id',
+            'db_column_type',
             'id',
             'cascade',
             'cascade'
@@ -43,6 +50,7 @@ class m200311_222106_create_db_column_name_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropForeignKey('fk-type_id-db_column_type', 'db_column_name');
         $this->dropForeignKey('fk-table_id-db_table_name', 'db_column_name');
         $this->dropTable('{{%db_column_name}}');
     }

@@ -6,6 +6,7 @@ namespace src\Core\Infrastructure;
 use Yii;
 use phpDocumentor\Reflection\Types\AbstractList;
 use src\Core\Domain\EntityInterface;
+use yii\db\Expression;
 
 abstract class AbstractRepository
 {
@@ -19,6 +20,32 @@ abstract class AbstractRepository
 
     public function insert(EntityInterface $entity)
     {
+        $attributes = $this->getEntityAttributes($entity);
+
+        return Yii::$app->db->createCommand()->insert($entity->getTableName(), $attributes)->execute();
+    }
+
+    public function update(EntityInterface $entity)
+    {
+        $attributes = $this->getEntityAttributes($entity);
+        $attributes['created_at'] = 'NOW()';
+
+        return Yii::$app->db->createCommand()->update($entity->getTableName(), $attributes)->execute();
+    }
+
+    public function delete(EntityInterface $entity)
+    {
+        return Yii::$app->db->createCommand()
+            ->delete($entity->getTableName(), "id=:id", [':id' => $entity->id])
+            ->execute();
+    }
+
+    /**
+     * @param EntityInterface $entity
+     * @return array
+     */
+    private function getEntityAttributes(EntityInterface $entity): array
+    {
         $attributes = $entity->getAttributes();
 
         foreach ($attributes as $key => $value) {
@@ -27,20 +54,6 @@ abstract class AbstractRepository
             }
         }
 
-        try {
-            Yii::$app->db->createCommand()->insert($entity->getTableName(), $attributes)->execute();
-            return true;
-        } catch (\Throwable $e) {
-            Yii::$app->session->setFlash('saveError', $e->getMessage());
-            return false;
-        }
+        return $attributes;
     }
-
-    abstract function update(EntityInterface $entity);
-
-    abstract function delete(EntityInterface $entity);
-
-//    public function find($params = null){}
-//
-//    abstract function findAll($params = null);
 }

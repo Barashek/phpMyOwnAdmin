@@ -15,16 +15,21 @@ class m200311_221134_create_db_table_name_table extends Migration
         $this->createTable('{{%db_table_name}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
-            'created_at' => $this->timestamp(),
-            'updated_at' => $this->timestamp()
+            'title' => $this->string(),
+            'user_id' => $this->integer(),
+            'created_at' => $this->timestamp()->defaultExpression('NOW()'),
+            'updated_at' => $this->timestamp()->defaultExpression('NOW()')
         ]);
 
-//        $this->insert('{{%db_table_name}}',
-//            [
-//                'name' => 'db_table_name',
-//                'created_at' => date("Y-m-d H-i-s")
-//            ]
-//        );
+        $this->addForeignKey(
+            'fk-user_id-user-table',
+            'db_table_name',
+            'user_id',
+            'user',
+            'id',
+            'cascade',
+            'cascade'
+        );
     }
 
     /**
@@ -32,6 +37,7 @@ class m200311_221134_create_db_table_name_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropForeignKey('fk-user_id-user-table', 'db_table_name');
         $this->dropTable('{{%db_table_name}}');
     }
 }

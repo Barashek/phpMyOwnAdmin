@@ -5,20 +5,26 @@ namespace backend\controllers;
 
 use src\Modules\Query\Domain\Entity\QueryEntity;
 use src\Modules\Query\Infrastructure\Repository\QueryRepository;
+use src\Modules\Query\Infrastructure\Service\QueryService;
 use Yii;
 use yii\web\Controller;
 
 class SqlQueryController extends Controller
 {
     private $query;
-//    private $queryError;
-//    private $queryAccess;
     private $queryRepository;
+    private $queryService;
 
-    public function __construct($id, $module, $config = [])
-    {
+    public function __construct(
+        $id,
+        $module,
+        QueryRepository $queryRepository,
+        QueryService $queryService,
+        $config = []
+    ) {
         parent::__construct($id, $module, $config);
-        $this->queryRepository = new QueryRepository();
+        $this->queryRepository = $queryRepository;
+        $this->queryService = $queryService;
     }
 
     public function actionIndex()
@@ -41,14 +47,21 @@ class SqlQueryController extends Controller
         Yii::$app->session->setFlash('query', $query);
 
         if (!empty(Yii::$app->request->post('exec'))) {
-            $this->queryRepository->exec($query);
+            $result = $this->queryService->exec($query);
+            if (is_string($result)) {
+                Yii::$app->session->addFlash('danger', $result);
+            } elseif (is_int($result)) {
+                Yii::$app->session->addFlash('success', "Затронуто {$result} строк");
+            } else {
+                return $this->render('view', ['data' => $result]);
+            }
         }
 
         if (!empty(Yii::$app->request->post('save'))) {
-            $queryModel = new QueryEntity();
-            $queryModel->query = $query;
+            $queryEntity = new QueryEntity();
+            $queryEntity->query = $query;
 
-            if ($this->queryRepository->save($queryModel)) {
+            if (!is_string($this->queryRepository->save($queryEntity))) {
                 Yii::$app->session->addFlash('success', "Запрос успешно сохранен");
             } else {
                 Yii::$app->session->addFlash('danger', "Произошла ошибка сохранения");

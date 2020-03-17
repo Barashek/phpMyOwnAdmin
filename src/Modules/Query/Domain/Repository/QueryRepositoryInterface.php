@@ -9,4 +9,6 @@ interface QueryRepositoryInterface
 
     public function exec(string $query);
 
+    public function select(string $query);
+
 }
