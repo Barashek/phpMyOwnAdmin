@@ -21,7 +21,7 @@ class DbColumnTypeRepository extends AbstractRepository implements DbColumnTypeR
         if (!$id) {
             return $this->createNewType($name);
         }
-        return $id;
+        return $id['id'];
     }
 
     /**

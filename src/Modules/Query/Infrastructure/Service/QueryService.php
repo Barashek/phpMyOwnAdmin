@@ -53,8 +53,7 @@ class QueryService
                 $this->queryRepository->exec($query);
                 $tableName = $this->getTableName($query);
                 $tableId = $this->createTable($tableName);
-                $this->createColumn($tableName, $tableId);
-                return true;
+                return $this->createColumn($tableName, $tableId);
             } else {
                 return $this->queryRepository->exec($query);
             }
@@ -101,11 +100,13 @@ class QueryService
         return Yii::$app->db->lastInsertID;
     }
 
+
     /**
      * @param string $tableName
      * @param int $tableId
+     * @return int
      */
-    private function createColumn(string $tableName, int $tableId)
+    private function createColumn(string $tableName, int $tableId): int
     {
         $columnNames = Yii::$app->db->getTableSchema($tableName)->getColumnNames();
 
@@ -125,5 +126,6 @@ class QueryService
             $dbColumnNameEntity = $this->mapper->map($attributes, new DbColumnNameEntity());
             $this->dbColumnNameRepository->save($dbColumnNameEntity);
         }
+        return count($columnNames);
     }
 }

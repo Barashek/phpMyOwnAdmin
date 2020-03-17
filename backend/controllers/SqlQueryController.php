@@ -30,10 +30,7 @@ class SqlQueryController extends Controller
     public function actionIndex()
     {
         $this->query = Yii::$app->session->getFlash('query');
-
         Yii::$app->session->remove('query');
-
-//        Yii::$app->session->addFlash('danger',  Yii::$app->session->getFlash('error'));
 
         return $this->render('index', [
             'query' => $this->query,
@@ -47,28 +44,51 @@ class SqlQueryController extends Controller
         Yii::$app->session->setFlash('query', $query);
 
         if (!empty(Yii::$app->request->post('exec'))) {
-            $result = $this->queryService->exec($query);
-            if (is_string($result)) {
-                Yii::$app->session->addFlash('danger', $result);
-            } elseif (is_int($result)) {
-                Yii::$app->session->addFlash('success', "Затронуто {$result} строк");
-            } else {
+            $result = $this->queryExecute($query);
+            if (is_array($result)) {
                 return $this->render('view', ['data' => $result]);
             }
         }
 
         if (!empty(Yii::$app->request->post('save'))) {
-            $queryEntity = new QueryEntity();
-            $queryEntity->query = $query;
-
-            if (!is_string($this->queryRepository->save($queryEntity))) {
-                Yii::$app->session->addFlash('success', "Запрос успешно сохранен");
-            } else {
-                Yii::$app->session->addFlash('danger', "Произошла ошибка сохранения");
-            }
+            $this->querySave($query);
         }
 
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+
+    /**
+     * @param string $query
+     * @return array|int|string|null
+     */
+    private function queryExecute(string $query)
+    {
+        $result = $this->queryService->exec($query);
+
+        if (is_string($result)) {
+            Yii::$app->session->addFlash('danger', $result);
+        } elseif (is_int($result)) {
+            Yii::$app->session->addFlash('success', "Затронуто {$result} строк");
+        } else {
+            return $result;
+        }
+        return null;
+    }
+
+    /**
+     * @param string $query
+     */
+    private function querySave(string $query)
+    {
+        $queryEntity = new QueryEntity();
+        $queryEntity->query = $query;
+
+        try {
+            $this->queryRepository->save($queryEntity);
+            Yii::$app->session->addFlash('success', "Запрос успешно сохранен");
+        } catch (\Throwable $exception) {
+            Yii::$app->session->addFlash('danger', "Произошла ошибка сохранения");
+        }
+    }
 }

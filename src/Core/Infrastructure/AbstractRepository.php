@@ -4,9 +4,7 @@
 namespace src\Core\Infrastructure;
 
 use Yii;
-use phpDocumentor\Reflection\Types\AbstractList;
 use src\Core\Domain\EntityInterface;
-use yii\db\Expression;
 
 abstract class AbstractRepository
 {
