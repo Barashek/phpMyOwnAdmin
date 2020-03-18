@@ -1,9 +1,13 @@
 <?php
 
+use src\Modules\Category\Domain\Repository\CategoryRepositoryInterface;
+use src\Modules\Category\Infrastructure\Repository\CategoryRepository;
 use src\Modules\Query\Domain\Repository\QueryRepositoryInterface;
 use src\Modules\Query\Infrastructure\Repository\QueryRepository;
-use src\Modules\SysDB\Domain\Repository\SysDbRepositoryInterface;
+use src\Modules\SysDB\Domain\Repository\DbColumnTypeRepositoryInterface;
+use src\Modules\SysDB\Domain\Repository\DbTableNameRepositoryInterface;
 use src\Modules\SysDB\Infrastructure\Repository\DbColumnNameRepository;
+use src\Modules\SysDB\Infrastructure\Repository\DbColumnTypeRepository;
 use src\Modules\SysDB\Infrastructure\Repository\DbTableNameRepository;
 
 $config = [
@@ -16,8 +20,9 @@ $config = [
     'container' => [
         'singletons' => [
             QueryRepositoryInterface::class => QueryRepository::class,
-            SysDbRepositoryInterface::class => DbTableNameRepository::class,
-//            SysDbRepositoryInterface::class => DbColumnNameRepository::class,
+            DbTableNameRepositoryInterface::class => DbTableNameRepository::class,
+            DbColumnTypeRepositoryInterface::class => DbColumnTypeRepository::class,
+            CategoryRepositoryInterface::class => CategoryRepository::class
         ]
     ]
 ];

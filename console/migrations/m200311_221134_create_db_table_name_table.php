@@ -17,6 +17,7 @@ class m200311_221134_create_db_table_name_table extends Migration
             'name' => $this->string()->notNull(),
             'title' => $this->string(),
             'user_id' => $this->integer(),
+            'category_id' => $this->integer(),
             'created_at' => $this->timestamp()->defaultExpression('NOW()'),
             'updated_at' => $this->timestamp()->defaultExpression('NOW()')
         ]);

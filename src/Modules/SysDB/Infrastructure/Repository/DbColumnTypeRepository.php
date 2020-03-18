@@ -31,7 +31,7 @@ class DbColumnTypeRepository extends AbstractRepository implements DbColumnTypeR
     private function createNewType(string $name): int
     {
         $mapper = new Mapper();
-        $model = $mapper->map(['name' => $name], new DbColumnTypeEntity());
+        $model = $mapper->arrayToEntity(['name' => $name], new DbColumnTypeEntity());
         $this->save($model);
         return Yii::$app->db->lastInsertID;
     }

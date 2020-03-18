@@ -23,6 +23,8 @@ class DbTableNameEntity extends AbstractAttributesEntity implements EntityInterf
     /** @var int */
     public $user_id;
 
+    /** @var int */
+    public $category_id;
 
     public $created_at;
     public $updated_at;

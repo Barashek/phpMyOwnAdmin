@@ -132,17 +132,11 @@ a.desc:after {
 
 }
 
-#error {
-    padding: 0;
-    background-color: #ff8e71;
+
+.row {
+    margin: 0;
 }
 
-#access {
-    padding: 0;
-    background-color: #8dff73;
-}
-
-#error p,
-#access p {
-    margin: 5px;
+#container {
+    padding: 50px 0;
 }

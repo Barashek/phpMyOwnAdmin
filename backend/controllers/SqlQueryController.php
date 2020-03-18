@@ -6,6 +6,7 @@ namespace backend\controllers;
 use src\Modules\Query\Domain\Entity\QueryEntity;
 use src\Modules\Query\Infrastructure\Repository\QueryRepository;
 use src\Modules\Query\Infrastructure\Service\QueryService;
+use src\Modules\SysDB\Infrastructure\Service\SelectTablesAndCategoriesService;
 use Yii;
 use yii\web\Controller;
 
@@ -29,6 +30,8 @@ class SqlQueryController extends Controller
 
     public function actionIndex()
     {
+        $selectTablesAndCategoriesService = new SelectTablesAndCategoriesService();
+        $categories = $selectTablesAndCategoriesService->selectCategories();
         $this->query = Yii::$app->session->getFlash('query');
         Yii::$app->session->remove('query');
 

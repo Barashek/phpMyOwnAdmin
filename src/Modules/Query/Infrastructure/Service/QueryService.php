@@ -95,7 +95,7 @@ class QueryService
      */
     private function createTable(string $tableName): int
     {
-        $dbTableNameEntity = $this->mapper->map(['name' => $tableName], new DbTableNameEntity());
+        $dbTableNameEntity = $this->mapper->arrayToEntity(['name' => $tableName], new DbTableNameEntity());
         $this->dbTableNameRepository->save($dbTableNameEntity);
         return Yii::$app->db->lastInsertID;
     }
@@ -123,7 +123,7 @@ class QueryService
                 'is_null' => $isNull
             ];
 
-            $dbColumnNameEntity = $this->mapper->map($attributes, new DbColumnNameEntity());
+            $dbColumnNameEntity = $this->mapper->arrayToEntity($attributes, new DbColumnNameEntity());
             $this->dbColumnNameRepository->save($dbColumnNameEntity);
         }
         return count($columnNames);

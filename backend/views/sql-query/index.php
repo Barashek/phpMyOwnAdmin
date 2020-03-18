@@ -13,9 +13,7 @@ use yii\widgets\ActiveForm;
 <!--<link rel="stylesheet" href="..\..\web\css\sql-query.css">-->
 
 <div class="row">
-    <div class="col-md-1"></div>
-    <div class="col" id="main">
-
+    <div id="main">
         <div class="row">
             <div class="col">
                 <form method="post" action="/sql-query/execute">
@@ -32,10 +30,6 @@ use yii\widgets\ActiveForm;
                 </form>
             </div>
         </div>
-
-    </div>
-
-    <div class="col-md-1">
-
     </div>
 </div>
+

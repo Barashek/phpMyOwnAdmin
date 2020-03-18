@@ -1,7 +1,10 @@
 <?php
 
 /* @var $this \yii\web\View */
+
 /* @var $content string */
+
+/* @var $categories array */
 
 use backend\assets\AppAsset;
 use yii\helpers\Html;
@@ -12,6 +15,7 @@ use common\widgets\Alert;
 
 AppAsset::register($this);
 ?>
+
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
@@ -26,44 +30,54 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
-    }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
-    ]);
-    NavBar::end();
-    ?>
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
+<div id="container" class="row">
+    <div class="col-lg-2">
+        <?php
+//        echo Html::beginTag('div', ['class' => 'dropdown']);
+//
+//        foreach ($categories as $category) {
+//            echo Html::tag('button', $category['name'], [
+//                'class' => "btn btn-secondary dropdown-toggle",
+//                'type' => "button",
+////                'id' => "dropdownMenuButton",
+//                'data-toggle' => "dropdown",
+//                'aria-haspopup' => "true",
+//                'aria-expanded' => "false"
+//
+//            ]);
+//
+//            echo Html::beginTag('div', [
+//                'class' => "dropdown-menu",
+//                'aria-labelledby' => "dropdownMenuButton"
+//            ]);
+//
+//            foreach ($category['tables'] as $table){
+//
+//            }
+//
+//            echo Html::endTag('div');
+//        }
+//        echo Html::endTag('div');
+        ?>
+
+<!--        <div class="">-->
+<!--            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"-->
+<!--                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--                Dropdown button-->
+<!--            </button>-->
+<!--            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">-->
+<!--                <a class="dropdown-item" href="#">Action</a>-->
+<!--                <a class="dropdown-item" href="#">Another action</a>-->
+<!--                <a class="dropdown-item" href="#">Something else here</a>-->
+<!--            </div>-->
+<!--        </div>-->
+
+    </div>
+    <div id="content" class="col-lg-9">
         <?= $content ?>
     </div>
+    <div class="col-lg-1"></div>
 </div>
 
 <footer class="footer">
