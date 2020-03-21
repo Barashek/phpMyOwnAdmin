@@ -12,8 +12,13 @@ use yii\web\Controller;
 
 class SqlQueryController extends Controller
 {
+    /** @var string */
     private $query;
+
+    /** @var QueryRepository  */
     private $queryRepository;
+
+    /** @var QueryService  */
     private $queryService;
 
     public function __construct(
@@ -30,8 +35,6 @@ class SqlQueryController extends Controller
 
     public function actionIndex()
     {
-        $selectTablesAndCategoriesService = new SelectTablesAndCategoriesService();
-        $categories = $selectTablesAndCategoriesService->selectCategories();
         $this->query = Yii::$app->session->getFlash('query');
         Yii::$app->session->remove('query');
 
@@ -43,8 +46,6 @@ class SqlQueryController extends Controller
     public function actionExecute()
     {
         $query = Yii::$app->request->post('query');
-
-        Yii::$app->session->setFlash('query', $query);
 
         if (!empty(Yii::$app->request->post('exec'))) {
             $result = $this->queryExecute($query);
@@ -71,6 +72,7 @@ class SqlQueryController extends Controller
 
         if (is_string($result)) {
             Yii::$app->session->addFlash('danger', $result);
+            Yii::$app->session->setFlash('query', $query);
         } elseif (is_int($result)) {
             Yii::$app->session->addFlash('success', "Затронуто {$result} строк");
         } else {

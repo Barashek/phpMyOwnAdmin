@@ -49,10 +49,26 @@ class SelectTablesAndCategoriesService
      * @param int $categoryId
      * @return array
      */
-//    private function selectTablesFromCategories(array $tables, int $categoryId): array
-//    {
-//        foreach ($tables as $table){
-//            if($table->id)
-//        }
-//    }
+    private function selectTablesFromCategories(array $tables, int $categoryId): array
+    {
+        $result = [];
+        foreach ($tables as $table) {
+            if ($table->category_id === $categoryId) {
+                $result[] = $table;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @return array
+     */
+    public function selectTables(): array
+    {
+        try {
+            return $this->dbTableNameRepository->findWithoutCategories();
+        } catch (\Throwable $exception) {
+            return null;
+        }
+    }
 }

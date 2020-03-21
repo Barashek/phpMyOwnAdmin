@@ -18,7 +18,13 @@ class DbTableNameRepository extends AbstractRepository implements DbTableNameRep
     {
         $sql = "select * from db_table_name where category_id=null";
 
-        return Yii::$app->db->createCommand($sql)->queryAll();
+        $mapper = new Mapper();
+        return $mapper->arrayToArrayOfEntity(
+            Yii::$app->db->createCommand($sql)->queryAll(),
+            new DbTableNameEntity()
+        );
+
+//        return Yii::$app->db->createCommand($sql)->queryAll();
     }
 
     public function findWithCategories(): array

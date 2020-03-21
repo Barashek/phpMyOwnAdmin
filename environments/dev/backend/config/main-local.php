@@ -6,7 +6,6 @@ use src\Modules\Query\Domain\Repository\QueryRepositoryInterface;
 use src\Modules\Query\Infrastructure\Repository\QueryRepository;
 use src\Modules\SysDB\Domain\Repository\DbColumnTypeRepositoryInterface;
 use src\Modules\SysDB\Domain\Repository\DbTableNameRepositoryInterface;
-use src\Modules\SysDB\Infrastructure\Repository\DbColumnNameRepository;
 use src\Modules\SysDB\Infrastructure\Repository\DbColumnTypeRepository;
 use src\Modules\SysDB\Infrastructure\Repository\DbTableNameRepository;
 

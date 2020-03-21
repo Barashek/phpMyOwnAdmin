@@ -3,7 +3,7 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'pgsql:host=192.168.83.145;port=5432;dbname=phpmyownadmin',
+            'dsn' => 'pgsql:host=192.168.83.150;port=5432;dbname=phpmyownadmin',
             'username' => 'vagrant',
             'password' => 'vagrant',
             'charset' => 'utf8',

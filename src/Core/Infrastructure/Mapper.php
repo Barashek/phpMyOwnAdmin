@@ -39,7 +39,7 @@ class Mapper
         $result = [];
 
         foreach ($array as $item) {
-            $result[]=$this->arrayToEntity($item, $entity);
+            $result[] = $this->arrayToEntity($item, $entity);
         }
 
         return $result;
